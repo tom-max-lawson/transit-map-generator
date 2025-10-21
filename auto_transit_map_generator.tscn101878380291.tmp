@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://5jynmx0kfno0"]
+
+[ext_resource type="Script" uid="uid://boqkns1nxky2n" path="res://line_drawer.gd" id="1_h01ju"]
+[ext_resource type="PackedScene" uid="uid://b70clxay3nyad" path="res://station.tscn" id="2_jhotj"]
+[ext_resource type="Texture2D" uid="uid://b12mpoqphna1b" path="res://tube_map_realistic.png" id="3_jhotj"]
+[ext_resource type="Texture2D" uid="uid://nwds44k2tiaj" path="res://subwaybuilder_sfo.png" id="4_6l1j5"]
+[ext_resource type="Script" uid="uid://dfxliu5306gci" path="res://camera_2d.gd" id="5_wuywq"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TubeMapRealistic" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(937, 537)
+scale = Vector2(0.6836862, 0.6836862)
+texture = ExtResource("3_jhotj")
+
+[node name="SubwaybuilderSfo" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(891, 537.00006)
+scale = Vector2(0.9869565, 0.98695654)
+texture = ExtResource("4_6l1j5")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="new line" type="Button" parent="UI"]
+offset_left = 16.0
+offset_top = 15.0
+offset_right = 113.0
+offset_bottom = 51.0
+text = "New Line"
+
+[node name="generate" type="Button" parent="UI"]
+offset_left = 17.0
+offset_top = 102.0
+offset_right = 114.0
+offset_bottom = 138.0
+text = "Generate"
+
+[node name="add station" type="Button" parent="UI"]
+offset_left = 17.0
+offset_top = 59.0
+offset_right = 115.0
+offset_bottom = 95.0
+text = "Station mode"
+
+[node name="switch" type="Button" parent="UI"]
+offset_left = 1803.0
+offset_top = 21.0
+offset_right = 1897.0
+offset_bottom = 52.0
+disabled = true
+text = "Switch"
+
+[node name="line drawer" type="Node2D" parent="."]
+script = ExtResource("1_h01ju")
+station_scene = ExtResource("2_jhotj")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("5_wuywq")
+
+[connection signal="pressed" from="UI/new line" to="line drawer" method="_on_new_line_pressed"]
+[connection signal="pressed" from="UI/generate" to="line drawer" method="_on_generate_pressed"]
+[connection signal="pressed" from="UI/add station" to="line drawer" method="_on_add_station_pressed"]
+[connection signal="pressed" from="UI/switch" to="line drawer" method="_on_switch_pressed"]
