@@ -1,0 +1,150 @@
+[gd_scene load_steps=18 format=3 uid="uid://bdpps1ifqrlyb"]
+
+[ext_resource type="Script" uid="uid://cohcao4p4bk2h" path="res://scenes/game/config.gd" id="1_mogw1"]
+[ext_resource type="Script" uid="uid://f2ljhub7ht4" path="res://scenes/game/debug_text.gd" id="2_4c6dq"]
+[ext_resource type="Script" uid="uid://cm8it4xaf4rkq" path="res://scenes/game/path_finder.gd" id="3_lkswk"]
+[ext_resource type="Script" uid="uid://eb3kum4r686l" path="res://scenes/game/roads.gd" id="4_ckq83"]
+[ext_resource type="Script" uid="uid://cn8se7vicvl0e" path="res://scenes/game/map_camera.gd" id="5_hwog6"]
+[ext_resource type="Script" uid="uid://c0bhjpa45eb5l" path="res://scenes/game/buildings.gd" id="6_43pvk"]
+[ext_resource type="Script" uid="uid://nmcatumk147l" path="res://scenes/game/fly_camera.gd" id="7_7a7dk"]
+[ext_resource type="Script" uid="uid://hjeleso4d7dk" path="res://scenes/game/ground_types.gd" id="8_r0p23"]
+[ext_resource type="Script" uid="uid://drfwutuylcn36" path="res://scenes/game/pois.gd" id="9_4xalm"]
+[ext_resource type="PackedScene" uid="uid://c3v2lq8jed8eh" path="res://assets/models/vehicle/brisbane_city_scania_l94ub_bus_rhd/brisbane_city_scania_l94ub_bus_rhd.glb" id="10_36bgb"]
+[ext_resource type="Script" uid="uid://ub1m6uhebwhk" path="res://scenes/game/transit_tool.gd" id="11_mh1qa"]
+[ext_resource type="Script" uid="uid://c2uwbnep8rbeg" path="res://scenes/game/demand_propagator.gd" id="12_8ob3h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ujn2h"]
+size = Vector3(4000000, 0, 4000000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ghvti"]
+size = Vector3(4000000, 1, 4000000)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e20ia"]
+
+[sub_resource type="Sky" id="Sky_l1eua"]
+sky_material = SubResource("ProceduralSkyMaterial_e20ia")
+
+[sub_resource type="Environment" id="Environment_2vmf2"]
+background_mode = 2
+sky = SubResource("Sky_l1eua")
+tonemap_mode = 2
+tonemap_white = 5.0
+ssao_enabled = true
+ssil_enabled = true
+
+[node name="Main" type="Node3D"]
+
+[node name="config" type="Node" parent="."]
+script = ExtResource("1_mogw1")
+graph_path = "res://maps/sydney/sydney_graph_geometry.json"
+poi_path = "res://maps/sydney/poi_grid.json"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="enable place stop mode" type="Button" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 212.0
+offset_bottom = 43.0
+text = "enable place stop mode"
+
+[node name="enable place line mode" type="Button" parent="CanvasLayer"]
+offset_left = 22.0
+offset_top = 51.0
+offset_right = 209.0
+offset_bottom = 82.0
+text = "enable place line mode"
+
+[node name="disable tools" type="Button" parent="CanvasLayer"]
+offset_left = 24.0
+offset_top = 88.0
+offset_right = 130.0
+offset_bottom = 119.0
+text = "disable tools"
+
+[node name="focus on next journey" type="Button" parent="CanvasLayer"]
+offset_left = 1719.0
+offset_top = 18.0
+offset_right = 1895.0
+offset_bottom = 49.0
+text = "focus on next journey"
+
+[node name="debug text" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_4c6dq")
+monitored_nodes = Array[NodePath]([NodePath("../../demand_propagator")])
+
+[node name="ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ujn2h")
+
+[node name="path finder" type="Node3D" parent="."]
+visible = false
+script = ExtResource("3_lkswk")
+
+[node name="roads" type="Node3D" parent="."]
+script = ExtResource("4_ckq83")
+
+[node name="MapCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.17364822, 0.9848077, 0, -0.9848077, 0.17364822, 0, 5000, 0)
+visible = false
+far = 500000.0
+script = ExtResource("5_hwog6")
+move_speed = 3200.0
+zoom_speed = 10.0
+min_y = 5.0
+max_y = 99000.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.20791166, 0.9781476, 0, -0.9781476, 0.20791166, 0, 500, 0)
+
+[node name="ground_plane" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground_plane"]
+shape = SubResource("BoxShape3D_ghvti")
+
+[node name="buildings" type="Node3D" parent="."]
+script = ExtResource("6_43pvk")
+tiles_folder = "res://maps/sydney/sydney_buildings"
+load_radius_tiles = 5
+
+[node name="FlyCamera" type="Camera3D" parent="."]
+far = 20000.0
+script = ExtResource("7_7a7dk")
+move_speed = 250.0
+boost_multiplier = 8.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2vmf2")
+
+[node name="ground_types" type="Node3D" parent="."]
+script = ExtResource("8_r0p23")
+json_path = "res://maps/sydney/sydney_ground.json"
+show_outlines = false
+ground_y = 0.1
+
+[node name="POIs" type="Node3D" parent="."]
+visible = false
+script = ExtResource("9_4xalm")
+
+[node name="bus_test" parent="." instance=ExtResource("10_36bgb")]
+
+[node name="transit tool" type="Node3D" parent="."]
+script = ExtResource("11_mh1qa")
+bus_scene = ExtResource("10_36bgb")
+
+[node name="demand_propagator" type="Node3D" parent="."]
+script = ExtResource("12_8ob3h")
+rate = 0.1
+bubble_radius = 100.0
+bubble_speed_mps = 1.0
+
+[connection signal="pressed" from="CanvasLayer/enable place stop mode" to="transit tool" method="enable_place_stop_mode"]
+[connection signal="pressed" from="CanvasLayer/enable place line mode" to="transit tool" method="enable_place_line_mode"]
+[connection signal="pressed" from="CanvasLayer/disable tools" to="transit tool" method="disable_tools"]
+[connection signal="pressed" from="CanvasLayer/focus on next journey" to="demand_propagator" method="_focus_next_bubble"]

@@ -258,8 +258,8 @@ func _on_new_line_pressed() -> void:
 
 
 func _on_generate_pressed() -> void:
-	var optim_in  := ProjectSettings.globalize_path("res://metro_graph_realistic.json") 
-	var optim_out := ProjectSettings.globalize_path("res://metro_graph_schematic.json")
+	var optim_in  := ProjectSettings.globalize_path("res://scenes/transit-map-generation/metro_graph_realistic.json") 
+	var optim_out := ProjectSettings.globalize_path("res://scenes/transit-map-generation/metro_graph_schematic.json")
 	
 	save_to_file(optim_in) # Save current graph to file
 	_thread = Thread.new()

@@ -1,3 +1,15 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+*.import
+*.uid
+*.tmp
+
+# Ignore large game data that can be re-generated
+maps/
+**/cache/**
+*.json
+*.geojson
+*.pack
+*.pbf
+*.graphml

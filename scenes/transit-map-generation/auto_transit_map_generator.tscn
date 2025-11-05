@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://5jynmx0kfno0"]
 
-[ext_resource type="Script" uid="uid://boqkns1nxky2n" path="res://line_drawer.gd" id="1_h01ju"]
-[ext_resource type="PackedScene" uid="uid://b70clxay3nyad" path="res://station.tscn" id="2_jhotj"]
-[ext_resource type="Texture2D" uid="uid://b12mpoqphna1b" path="res://tube_map_realistic.png" id="3_jhotj"]
-[ext_resource type="Script" uid="uid://cfb08g6d4ao8h" path="res://switch_button.gd" id="3_v8g7e"]
-[ext_resource type="Texture2D" uid="uid://nwds44k2tiaj" path="res://subwaybuilder_sfo.png" id="4_6l1j5"]
-[ext_resource type="Script" uid="uid://dfxliu5306gci" path="res://camera_2d.gd" id="5_wuywq"]
+[ext_resource type="Texture2D" uid="uid://b12mpoqphna1b" path="res://scenes/transit-map-generation/stencils/tube_map_realistic.png" id="1_u7ni1"]
+[ext_resource type="Texture2D" uid="uid://nwds44k2tiaj" path="res://scenes/transit-map-generation/stencils/subwaybuilder_sfo.png" id="2_fymm8"]
+[ext_resource type="Script" uid="uid://cfb08g6d4ao8h" path="res://scenes/transit-map-generation/switch_button.gd" id="3_dfoyc"]
+[ext_resource type="Script" uid="uid://boqkns1nxky2n" path="res://scenes/transit-map-generation/line_drawer.gd" id="4_jbtac"]
+[ext_resource type="PackedScene" uid="uid://b70clxay3nyad" path="res://scenes/transit-map-generation/scenes/station.tscn" id="5_8ey8u"]
+[ext_resource type="Script" uid="uid://dfxliu5306gci" path="res://scenes/transit-map-generation/camera_2d.gd" id="6_5hqxb"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -13,13 +13,13 @@
 visible = false
 position = Vector2(937, 537)
 scale = Vector2(0.6836862, 0.6836862)
-texture = ExtResource("3_jhotj")
+texture = ExtResource("1_u7ni1")
 
 [node name="SubwaybuilderSfo" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(891, 537.00006)
 scale = Vector2(0.9869565, 0.98695654)
-texture = ExtResource("4_6l1j5")
+texture = ExtResource("2_fymm8")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -51,14 +51,14 @@ offset_right = 113.0
 offset_bottom = 180.0
 disabled = true
 text = "Switch"
-script = ExtResource("3_v8g7e")
+script = ExtResource("3_dfoyc")
 
 [node name="line drawer" type="Node2D" parent="."]
-script = ExtResource("1_h01ju")
-station_scene = ExtResource("2_jhotj")
+script = ExtResource("4_jbtac")
+station_scene = ExtResource("5_8ey8u")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("5_wuywq")
+script = ExtResource("6_5hqxb")
 
 [connection signal="pressed" from="UI/new line" to="line drawer" method="_on_new_line_pressed"]
 [connection signal="pressed" from="UI/generate" to="line drawer" method="_on_generate_pressed"]

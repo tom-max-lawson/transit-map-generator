@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b70clxay3nyad"]
 
-[ext_resource type="Script" uid="uid://c85v6w75a5j8f" path="res://station.gd" id="1_lu35c"]
+[ext_resource type="Script" uid="uid://c85v6w75a5j8f" path="res://scenes/transit-map-generation/scenes/station.gd" id="1_lu35c"]
 
 [node name="Station" type="Node2D"]
 script = ExtResource("1_lu35c")
